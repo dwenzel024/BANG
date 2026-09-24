@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karetní hra BANG!</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Změněný font na Sancreek (obsahuje kompletní českou diakritiku) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sancreek&display=swap" rel="stylesheet">
+ 
+    <style>
+        body {
+            background-color: #e2c9a5; /* Záložní barva */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('OIP.webp');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            
+            color: #2b1810;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px 10px;
+        }
+ 
+        #hlavni-obal {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: #f7e7ce;
+            border: 4px solid #5c3a21;
+            padding: 25px 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            border-radius: 4px;
+        }
+ 
+        h1 {
+            font-family: 'Sancreek', serif;
+            font-size: 52px;
+            text-align: center;
+            color: #8b0000;
+            margin-top: 5px;
+            margin-bottom: 0px;
+            text-shadow: 2px 2px 0px #3d0000;
+            letter-spacing: 2px;
+        }
+ 
+        .podnadpis {
+            text-align: center;
+            font-weight: bold;
+            font-style: italic;
+            color: #5c3a21;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+ 
+        .menu {
+            text-align: center;
+            border-top: 2px dashed #5c3a21;
+            border-bottom: 2px dashed #5c3a21;
+            padding: 10px 0;
+            margin-bottom: 30px;
+            background-color: #efe0c9;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+ 
+        .menu a {
+            color: #5c3a21;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 0 8px;
+            font-size: 14px;
+        }
+ 
+        .menu a:hover {
+            text-decoration: underline;
+            color: #8b0000;
+        }
+ 
+        h2 {
+            font-family: 'Sancreek', serif;
+            color: #5c3a21;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 5px;
+            margin-top: 35px;
+            font-size: 24px;
+        }
+ 
+        .role-box, .karta-box, .prispevek-box {
+            background-color: #d2b48c;
+            border: 2px solid #5c3a21;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+ 
+        .role-box h3, .karta-box h3, .prispevek-box h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #8b0000;
+            font-family: 'Sancreek', serif;
+            font-size: 20px;
+        }
+ 
+        .tag {
+            display: inline-block;
+            background-color: #5c3a21;
+            color: #f7e7ce;
+            padding: 2px 7px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-right: 4px;
+            text-transform: uppercase;
+        }
+ 
+        .tag-kat {
+            background-color: #8b0000;
+        }
+ 
+        ul, ol {
+            line-height: 1.7;
+            padding-left: 20px;
+        }
+ 
+        li {
+            margin-bottom: 8px;
+        }
+ 
+        .formular-sekce {
+            background-color: #ebdcc3;
+            border: 2px solid #5c3a21;
+            padding: 20px;
+            margin-top: 20px;
+        }
+ 
+        .form-skupina {
+            margin-bottom: 15px;
+        }
+ 
+        .form-skupina label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #5c3a21;
+        }
+ 
+        .form-skupina input[type="text"],
+        .form-skupina input[type="email"],
+        .form-skupina select,
+        .form-skupina textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #5c3a21;
+            background-color: #fff8dc;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+ 
+        .form-skupina input:focus,
+        .form-skupina select:focus,
+        .form-skupina textarea:focus {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #8b0000;
+        }
+ 
+        .tlacitko-odeslat {
+            background-color: #8b0000;
+            color: #ffffff;
+            font-family: 'Sancreek', serif;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: 2px solid #3d0000;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+ 
+        .tlacitko-odeslat:hover {
+            background-color: #a50000;
+        }
+ 
+        footer {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 2px dashed #5c3a21;
+            text-align: center;
+            font-size: 12px;
+            color: #5c3a21;
+        }
+ 
+        @media (max-width: 600px) {
+            h1 { font-size: 36px; }
+            #hlavni-obal { padding: 15px; }
+            .menu a { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+ 
+<div id="hlavni-obal">
+ 
+    <h1>BANG!</h1>
+    <div class="podnadpis">Téměř oficiální web pro světoznámou westernovou hrou</div>
+ 
+    <div class="menu">
+        <a href="#o-hre">O hře</a> |
+        <a href="#role">Herní role</a> |
+        <a href="#pravidla">Pravidla</a> |
+        <a href="#postavy">Postavy</a> |
+        <a href="#clanky">Články & Strategie</a> |
+        <a href="#turnaj">Turnaj & Kontakt</a>
+    </div>
+ 
+    <h2 id="o-hre">O hře</h2>
+    <p>
+        <strong>BANG!</strong> je celosvětově populární karetní hra s tématikou Divokého západu určená pro 4 - 7 hráčů (s rozšířeními až pro 8). Hráči se na začátku vžijí do tajných rolí – od zástupců zákona přes nebezpečné bandity až po osamělého odpadlíka.
+    </p>
+    <p>
+        Hlavním kouzlem hry je blufování, taktizování a nejistota, komu vlastně můžete věřit. Jedinou veřejně známou postavou od začátku hry je totiž pouze <strong>Šerif</strong>.
+    </p>
+ 
+    <h2 id="role">Herní role</h2>
+    <p>Na začátku hry si každý hráč tajně vylosuje jednu kartu role. Každá role má odlišný cíl pro vítězství:</p>
+ 
+    <div class="role-box">
+        <h3>Šerif (1 hráč)</h3>
+        <p><strong>Cíl:</strong> Zabít všechny Bandity a Odpadlíka.</p>
+        <p>Šerif jako jediný svou kartu role ihned odhalí všem ostatním. Získává jako bonus +1 život navíc ke své postavě a hru vždy začíná.</p>
+    </div>
+ 
+    <div class="role-box">
+        <h3>Vicešerif / Pobočník (1 - 2 hráči)</h3>
+        <p><strong>Cíl:</strong> Chránit Šerifa a pomáhat mu zlikvidovat nepřátele.</p>
+        <p>Pobočníci hrají v utajení. Jejich úkolem je bránit Šerifa vlastními těly a střílet po podezřelých hráčích. Vyhrávají společně se Šerifem.</p>
+    </div>
+ 
+    <div class="role-box">
+        <h3>Bandita (2 - 3 hráči)</h3>
+        <p><strong>Cíl:</strong> Zastřelit Šerifa.</p>
+        <p>Bandité chtějí zneškodnit Šerifa za každou cenu. Nemusí zlikvidovat Pobočníky, jakmile Šerif padne, Bandité okamžitě vyhrávají.</p>
+    </div>
+ 
+    <div class="role-box">
+        <h3>Odpadlík (1 hráč)</h3>
+        <p><strong>Cíl:</strong> Zůstat ve hře jako poslední přeživší.</p>
+        <p>Nejtěžší role ve hře. Odpadlík musí nejprve pomáhat Šerifovi likvidovat Bandity a Pobočníky, aby nakonec v duelu 1 na 1 porazil samotného Šerifa.</p>
+    </div>
+ 
+    <h2 id="pravidla">Jak se hraje (Tah hráče)</h2>
+    <p>Hra probíhá po směru hodinových ručiček. Tah každého hráče se skládá ze tří po sobě jdoucích fází:</p>
+ 
+    <ol>
+        <li>
+            <b>Lízání karet:</b> Hráč si na začátku svého tahu lízne 2 svrchní karty z dobíracího balíčku (některé postavy mají z tohoto pravidla výjimku).
+        </li>
+        <li>
+            <b>Hraní karet:</b> Hráč může zahrát libovolný počet karet, kterými pomáhá sobě (léčení, zbraně, koně) nebo škodí soupeřům (střelba, kradení karet).
+            <ul>
+                <li><i>Omezení 1:</i> Karta <b>BANG!</b> se běžně smí zahrát pouze 1x za tah.</li>
+                <li><i>Omezení 2:</i> Hráč před sebou nemůže mít vyloženy dvě stejné karty (např. dva Mustagny).</li>
+            </ul>
+        </li>
+        <li>
+            <b>Odhazování karet:</b> Na konci tahu nesmí mít hráč v ruce více karet, než je jeho aktuální zbývající počet životů. Přebytečné karty musí odhodit na odhazovací balíček.
+        </li>
+    </ol>
+ 
+    <h2 id="postavy">Známé postavy</h2>
+    <p>Každý hráč kromě role dostane i konkrétní postavu Divokého západu, která určuje počet životů a unikátní schopnost:</p>
+ 
+    <div class="karta-box">
+        <h3>Paul Regret (3 životy)</h3>
+        <p><strong>Schopnost:</strong> Všichni ostatní hráči na něho vidí ve vzdálenosti o 1 větší. Mát tak v sobě zabudovaného stálého koně Mustang.</p>
+    </div>
+ 
+    <div class="karta-box">
+        <h3>Slab the Killer (4 životy)</h3>
+        <p><strong>Schopnost:</strong> K zrušení jeho karty <em>BANG!</em> musí cílový hráč zahrát dvě karty <em>Vedle!</em> místo jedné.</p>
+    </div>
+ 
+    <div class="karta-box">
+        <h3>El Gringo (3 životy)</h3>
+        <p><strong>Schopnost:</strong> Kdykoliv ztratí život kvůli kartě hrané jiným hráčem, lízne si náhodnou kartu přímo z ruky tohoto hráče.</p>
+    </div>
+ 
+    <div class="karta-box">
+        <h3>Willy the Kid (4 životy)</h3>
+        <p><strong>Schopnost:</strong> Ve svém tahu může zahrát libovolný počet karet <em>BANG!</em> (ruší se pro něj limit 1 střelby za tah).</p>
+    </div>
+ 
+    <h2 id="clanky">Články, Rozšíření & Strategie</h2>
+    <p>Aktuální novinky ze světa BANG!, rozbory doplňků a taktické návody pro začátečníky i pokročilé:</p>
+ 
+    <div class="prispevek-box">
+        <h3>Rozšíření: Město duchů (Dodge City)</h3>
+        <p>
+            <span class="tag tag-kat">Rozšíření</span>
+            <span class="tag">Město duchů</span>
+            <span class="tag">Zelené karty</span>
+        </p>
+        <p>
+            Město duchů přináší do hry 15 nových postav, možnost hrát až v 8 hráčích a především nový typ zelených karet, které si vyložíte před sebe a aktivujete je až v dalším tahu.
+        </p>
+    </div>
+ 
+    <div class="prispevek-box">
+        <h3>Taktika: Jak vyhrát v roli Odpadlíka?</h3>
+        <p>
+            <span class="tag tag-kat">Strategie</span>
+            <span class="tag">Odpadlík</span>
+            <span class="tag">Taktika</span>
+        </p>
+        <p>
+            Hra za Odpadlíka vyžaduje trpělivost. Ze začátku musíte mírnit převahu Banditů a chránit Šerifa. Jakmile ale převaha přejde na stranu zákona, musíte tajně oslabit i je, abyste do finálového souboje s Šerifem nešli v nevýhodě.
+        </p>
+    </div>
+ 
+    <div class="prispevek-box">
+        <h3>Srovnání zbraní: Colt .45 vs. Volcanic</h3>
+        <p>
+            <span class="tag tag-kat">Strategie</span>
+            <span class="tag">Zbraně</span>
+            <span class="tag">Předměty</span>
+        </p>
+        <p>
+            Zatímco klasický Colt .45 dostřelí jen na souseda (vzdálenost 1), Volcanic sice udržuje vzdálenost 1, ale umožňuje vystřelit neomezené množství kariet BANG!. Je ideální pro rychlou eliminaci sousedních hráčů.
+        </p>
+    </div>
+ 
+    <h2 id="turnaj">Registrace na Turnaj & Kontakt</h2>
+    <p>Chceš si změřit síly s ostatními pistolníky? Přihlas se na náš nadcházející víkendový turnaj v karetní hře BANG! nebo nám napiš dotaz.</p>
+ 
+    <div class="formular-sekce">
+        <form action="#" method="post">
+            <div class="form-skupina">
+                <label for="jmeno">Jméno a příjmení:*</label>
+                <input type="text" id="jmeno" name="jmeno" required placeholder="Pepa Novák">
+            </div>
+ 
+            <div class="form-skupina">
+                <label for="email">E-mail:*</label>
+                <input type="email" id="email" name="email" required placeholder="pepa@email.cz">
+            </div>
+ 
+            <div class="form-skupina">
+                <label for="uroven">Herní úroveň:</label>
+                <select id="uroven" name="uroven">
+                    <option value="zacatecnik">Začátečník (znám jen základní pravidla)</option>
+                    <option value="pokrocily" selected>Pokročilý (hraju pravidelně s přáteli)</option>
+                    <option value="veteran">Veterán (znám všechna rozšíření)</option>
+                </select>
+            </div>
+ 
+            <div class="form-skupina">
+                <label for="oblibena-role">Oblíbená role:</label>
+                <select id="oblibena-role" name="oblibena-role">
+                    <option value="serif">Šerif</option>
+                    <option value="pobocnik">Pobočník</option>
+                    <option value="bandita">Bandita</option>
+                    <option value="odpadlik">Odpadlík</option>
+                </select>
+            </div>
+ 
+            <div class="form-skupina">
+                <label for="zprava">Vzkaz / Dotaz pro pořadatele:</label>
+                <textarea id="zprava" name="zprava" rows="4" placeholder="Napiš nám, pokud máš nějaký dotaz k turnaji..."></textarea>
+            </div>
+ 
+            <button type="submit" class="tlacitko-odeslat">Odeslat Přihlášku na Turnaj</button>
+        </form>
+    </div>
+</div>
+ 
+</body>
+</html>
